@@ -10,14 +10,21 @@ here::i_am('02_scripts/1_cleaning/cleanEle.R')
 source(here::here('02_scripts', 'utilities.R'))
 quickload()
 setDataPaths('elephant')
-datafile <- readxl::read_xlsx(rawpath('GPS_apr2019-apr2022_DSPA.xlsx'))
+files <- list.files(rawpath(), pattern="csv")
+data <- NULL
+for (i in seq_along(files) ) {
+  csv <- read.csv(rawpath( files[i]))
+  if (is.null(data)) data <- csv
+  else data <- rbind(data, csv)
+}
+
 
 
 # ******************************************************************************
 #                             Initial looks
 # ******************************************************************************
-names(datafile) <- gsub('\\.| |`', '', toupper(names(datafile)))
-ele <- datafile %>% 
+names(data) <- gsub('\\.| |`', '', toupper(names(data)))
+ele <- data %>% 
   arrange(TAG, TIMESTAMP) %>% 
   mutate( 
     # indexing
@@ -46,11 +53,11 @@ ele <- datafile %>%
     START.COUNT = BURST != lag(BURST),
     START.COUNT = ifelse(is.na(START.COUNT), TRUE, START.COUNT)
   ) %>% 
+  arrange(ID) %>% 
   select(INX, TAG.INDEX, ID, BURST, START.COUNT,
          DATE.TIME, DATE, MONTH, YEAR, TEMPC,
          LON, LAT, ACCELEROMETER, MOVEMENT,
          DIFF, SPEED)
-
 ele$INX <- 1:nrow(ele)
 
 
@@ -86,19 +93,25 @@ makeHist <- function(i) {
   hist.data <- data %>%
     group_by(DATE, .drop=FALSE) %>%
     summarize(n=n()) %>%
-    mutate(FLAG = ifelse(n > 27, "HIGH", ifelse(n<20, "LOW", "AVG")))
-  title = paste0('Elephant ', data$ID[1], ' (', data$SEX[1], ')')
+    mutate(FLAG = ifelse(n > 8, "HIGH", ifelse(n<4, "LOW", "AVG")))
+  title = paste0('Elephant ', data$ID[1])
   cols <- list(AVG='darkgray', HIGH='#08c952', LOW='#f2055c')[unique(hist.data$FLAG)]
   ggplot() +
     geom_bar(data=hist.data,
              mapping=aes(x=DATE, y=n, fill=FLAG),
              stat="identity") +
     ggtitle(title) + theme(axis.title.x=element_blank()) +
-    scale_fill_manual(values=cols) + ylab('number of fixes') +
-    scale_x_date(breaks='1 year', date_labels = "%Y") + theme(text=element_text(size=20))
+    scale_fill_manual(values=cols) + ylab('daily # GPS fixes') +
+    scale_x_date(breaks='4 months', date_labels = "%b-%Y") + theme(text=element_text(size=20))
 }
-i <- ids[1]
-makeHist(i)
+makeHist(ids[1])
+
+setOutPath("elephant_data_histograms")
+for (id in ids) {
+  p <- makeHist(id)
+  fname = paste0('hist_gps_', id, '.png')
+  ggsave(p, file=outpath(fname))
+}
 
 # ******************************************************************************
 #                                       STS
