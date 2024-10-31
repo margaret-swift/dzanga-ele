@@ -13,6 +13,9 @@ Data:
 - Data located: https://zenodo.org/records/7764460
 
 Output: Create three mapping layers.
+
 (1) Map of **positive elephant presence density** using _passive acoustic monitoring_ data.
+
 (2) Map of **likely canopy obstruction** of GPS data (high values = high likelihood of ele presence being obscured) using the _canopy cover raster_.
+
 (3) Map of **likely elephant locations** using _elephant GPS_ data.
