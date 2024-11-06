@@ -22,3 +22,29 @@ Output: Create three mapping layers.
 1. Map of **positive elephant presence density** using _passive acoustic monitoring_ data.
 1. Map of **likely canopy obstruction** of GPS data (high values = high likelihood of ele presence being obscured) using the _canopy cover raster_.
 1. Map of **likely elephant locations** using _elephant GPS_ data.
+
+
+
+
+
+
+
+
+
+
+Two levels:
+
+1. the immediate reporting - what we need to provide to the park, understanding where teh elephants are going, and how much time they're spending in D-S and if it's seasonal. How much time are they spending in other areas?
+- using with the data of anti-poaching patrols (poacher camps, carcasses found, etc.) to figure out where to protect?
+- poaching and gun hunting + people in the forest and causing disturbance, cable traps not targeteing eles but changing their behavior
+1. the question of - what resources are the elephants using? and when? How does Steve think about this? The clearings are obviously allowing more fixes to go through --  
+
+
+
+
+
+
+
+
+
+
