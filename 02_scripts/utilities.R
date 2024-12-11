@@ -165,22 +165,50 @@ message("   ...Basic functions loaded.")
 #                             PLOTTING FUNCTIONS
 # ******************************************************************************
 
-zoomTo <- function(shape, buffer=2) {
-  bb <- st_bbox(shape)
-  bb[c('xmin', 'ymin')] <- bb[c('xmin', 'ymin')] - buffer
-  bb[c('xmax', 'ymax')] <- bb[c('xmax', 'ymax')] + buffer
-  coord_sf(xlim=bb[c('xmin', 'xmax')],
-           ylim=bb[c('ymin', 'ymax')])
+## Loading geographic data
+load(file.path(datadir, 'geographicdata.rdata'))
+
+## PLOTTING STUFF
+base = ggplot(fill='darkgray') + 
+  # geom_sf(data=rivers.big, color='blue') + 
+  # 
+  # ## Background plots - protected areas, boundaries
+  geom_sf(data=apds, color='purple', fill='purple', alpha=0.1, linewidth=1)  +
+  geom_sf(data=tns_bounds, mapping=aes(color=OCODE, fill=OCODE), alpha=0.2) +
+  # geom_sf(data=pa, color=NA, fill='lightgreen') + 
+  # geom_sf(data=bounds, fill='lightpink', color='red', linewidth=1) +
+  
+  ## rivers and roads
+  geom_sf(data=rivers, color='lightblue') +
+  geom_sf(data=roads, color='black', linewidth=1.5) +
+  # hunting and logging zones
+  geom_sf(data=cc_zone, fill='yellow', color='yellow', alpha=0.2) +
+  geom_sf(data=apds, color='purple', fill='NA', linewidth=1)  +
+  # dzanga-sangha
+  # bais and villages
+  geom_sf(data=bais, color='blue', size=3) + 
+  geom_sf(data=villages, color='yellow', size=3) + 
+  geom_sf(data=logging, color='black', fill='black', alpha=0.5, linewidth=1) +
+  
+  # themes
+  theme_bw() + theme(text=element_text(size=20)) +
+  theme(panel.background = element_rect(fill = 'gray'))
+
+zoomTo <- function(p, bb) {
+  findBuff <- function(min, max) abs(min-max) * 0.1
+  xb = findBuff(bb[['xmin']],bb[['xmax']])
+  yb = findBuff(bb[['ymin']],bb[['ymax']])
+  p = p + coord_sf(
+    xlim=c(bb[['xmin']]-xb, bb[['xmax']]+xb ),
+    ylim=c(bb[['ymin']]-yb, bb[['ymax']]+yb))
+  return(p)
 }
 
-# load protected areas maps
-# setDataPaths('khaudum_geography', verbose=FALSE)
-# load(here::here(procpath, "geographicData.RData"))
-# khauPlot <- function(fill="transparent", lwd=1, ...) {
-#   ggplot(data=khau) + 
-#     geom_sf(fill=fill, linewidth=lwd, ...) + 
-#     plot.theme
-# }
+
+
+
+
+
 # plotting hist and params for step length
 plotParams <- function(par1, par2, type="step") {
   createWC <- function(x, k, mu, rho) CircStats::dwrpcauchy(x, mu=mu, rho=rho) * k

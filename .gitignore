@@ -2,4 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-01_data/elephant/*
+01_data/*
+03_output/*
