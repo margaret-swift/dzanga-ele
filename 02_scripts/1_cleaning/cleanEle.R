@@ -20,17 +20,8 @@ for (i in seq_along(files) ) {
   if (is.null(data)) data <- csv
   else data <- rbind(data, csv)
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 metadata <- read.csv(metapath('ele_collared_dates.csv')) %>% 
   mutate(Date.Collared = as.Date(Date.Collared))
-=======
-=======
-
->>>>>>> cbda14cd2049c3f3cda35e7ea2e883eae0d1fce7
-
-
->>>>>>> cbda14cd2049c3f3cda35e7ea2e883eae0d1fce7
 
 # ******************************************************************************
 #                             Initial looks
@@ -68,26 +59,11 @@ ele <- data %>%
     BURST = ID*1000 + (cumsum(!DIFF %in% c(0,1))),
   ) %>% 
   arrange(ID) %>% 
-<<<<<<< HEAD
-<<<<<<< HEAD
   dplyr::select(INX, TAG.INDEX, ID, MISSING, TYPE, LOGINTERVAL, BURST,
          DATE.TIME, DATE, MONTH, YEAR, TEMPC,
          LON, LAT, ACCELEROMETER, MOVEMENT,
          DIFF, SPEED)
-
-=======
-  select(INX, TAG.INDEX, ID, BURST, START.COUNT,
-         DATE.TIME, DATE, MONTH, YEAR, TEMPC,
-         LON, LAT, ACCELEROMETER, MOVEMENT,
-         DIFF, SPEED)
-=======
-  select(INX, TAG.INDEX, ID, BURST, START.COUNT,
-         DATE.TIME, DATE, MONTH, YEAR, TEMPC,
-         LON, LAT, ACCELEROMETER, MOVEMENT,
-         DIFF, SPEED)
->>>>>>> cbda14cd2049c3f3cda35e7ea2e883eae0d1fce7
 ele$INX <- 1:nrow(ele)
->>>>>>> cbda14cd2049c3f3cda35e7ea2e883eae0d1fce7
 
 ## Filter out all collar data before the elephant was collared
 ## for the collars labeled 48NN, we don't know exactly when they were collared
@@ -129,8 +105,6 @@ ele.sf <- st_as_sf(ele.df %>% filter(!MISSING), coords=c("LON", "LAT"), crs=4326
 
 
 # ******************************************************************************
-<<<<<<< HEAD
-=======
 #                                     STATS
 # ******************************************************************************
 makeHist <- function(i) {
@@ -164,7 +138,6 @@ for (id in ids) {
 }
 
 # ******************************************************************************
->>>>>>> cbda14cd2049c3f3cda35e7ea2e883eae0d1fce7
 #                                       STS
 # ******************************************************************************
 
