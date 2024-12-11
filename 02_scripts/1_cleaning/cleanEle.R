@@ -21,9 +21,13 @@ for (i in seq_along(files) ) {
   else data <- rbind(data, csv)
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 metadata <- read.csv(metapath('ele_collared_dates.csv')) %>% 
   mutate(Date.Collared = as.Date(Date.Collared))
 =======
+=======
+
+>>>>>>> cbda14cd2049c3f3cda35e7ea2e883eae0d1fce7
 
 
 >>>>>>> cbda14cd2049c3f3cda35e7ea2e883eae0d1fce7
@@ -65,6 +69,7 @@ ele <- data %>%
   ) %>% 
   arrange(ID) %>% 
 <<<<<<< HEAD
+<<<<<<< HEAD
   dplyr::select(INX, TAG.INDEX, ID, MISSING, TYPE, LOGINTERVAL, BURST,
          DATE.TIME, DATE, MONTH, YEAR, TEMPC,
          LON, LAT, ACCELEROMETER, MOVEMENT,
@@ -75,6 +80,12 @@ ele <- data %>%
          DATE.TIME, DATE, MONTH, YEAR, TEMPC,
          LON, LAT, ACCELEROMETER, MOVEMENT,
          DIFF, SPEED)
+=======
+  select(INX, TAG.INDEX, ID, BURST, START.COUNT,
+         DATE.TIME, DATE, MONTH, YEAR, TEMPC,
+         LON, LAT, ACCELEROMETER, MOVEMENT,
+         DIFF, SPEED)
+>>>>>>> cbda14cd2049c3f3cda35e7ea2e883eae0d1fce7
 ele$INX <- 1:nrow(ele)
 >>>>>>> cbda14cd2049c3f3cda35e7ea2e883eae0d1fce7
 
